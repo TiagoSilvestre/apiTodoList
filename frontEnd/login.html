@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>Api TodoList</title>
+        <!-- Bootstrap 4 CSS and custom CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#">Api TodoList</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="login.html" id='login'>Login</a>
+                    <a class="nav-item nav-link" href="register.html" id='sign_up'>Register</a>
+                </div>
+            </div>
+        </nav>
+
+        <br><br><br>
+        <!-- container -->
+        <main role="main" class="container starter-template">
+            <div class="row">
+                <div class="col">
+                    <!-- where prompt / messages will appear -->
+                    <div id="response"></div>
+
+                    <div id="content">
+                        <h2>Login</h2>
+                        <form id='login_form'>
+                            <div class='form-group'>
+                                <label for='email'>Email</label>
+                                <input type='email' class='form-control' id='email' name='email' placeholder='Digite seu email'>
+                            </div>
+                            <div class='form-group'>
+                                <label for='password'>Senha</label>
+                                <input type='password' class='form-control' id='password' name='password' placeholder='Digite sua senha'>
+                            </div>
+                            <button type='submit' class='btn btn-primary'>Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- jQuery & Bootstrap 4 JavaScript libraries -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <!-- Functions file -->
+        <script src="functions.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $(document).on('submit', '#login_form', function () {
+                    event.preventDefault();
+                    // get form data
+                    var login_form = $(this);
+                    var form_data = JSON.stringify(login_form.serializeObject());
+
+                    $.ajax({
+                        url: urlBase + "/user/login.php",
+                        type: "POST",
+                        contentType: 'application/json',
+                        data: form_data,
+                        success: function (result) {
+                            // store jwt to cookie
+                            setCookie("jwt", result.jwt, 1);
+                            alert('Login realizado com sucesso');
+                            window.location.href = 'todolist.html';
+                        },
+                        error: function (xhr, resp, text) {
+                            $('#response').html("<div class='alert alert-danger'>Login falhou. Email ou password estão incorretos.</div>");
+                            login_form.find('input').val('');
+                        }
+                    });
+                    return false;
+                });
+            });
+        </script>
+    </body>
+</html>

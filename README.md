@@ -1,4 +1,7 @@
-Olá, nessas duas pastas, backEnd e frontEnd, se encontram a api e o aplicativo.
+Olá, eu publiquei esse aplicativo no endereço abaixo, caso queiram acessar. 
+http://www.tiagosilvestre.com.br/
+
+Nesse repositório duas pastas, backEnd e frontEnd, na qual se encontram a api e o aplicativo.
 
 ## BackEnd:
 
